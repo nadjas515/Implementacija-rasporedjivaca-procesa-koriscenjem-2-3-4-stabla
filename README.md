@@ -1,6 +1,6 @@
 # CFS-Style Process Scheduler on a 2-3-4 Tree
 
-A simulation of a Linux CFS-style (Completely Fair Scheduler) process scheduler, written in C++. The run queue is a **2-3-4 tree** keyed by each process's waiting time, so the process that has waited the least is always the leftmost key and is the next to run. The tree can be printed both as a 2-3-4 tree and as the equivalent **red-black tree**.
+A simulation of a simplified Linux CFS-style (Completely Fair Scheduler) process scheduler, written in C++. The run queue is a **2-3-4 tree** ordered by each process's current waiting time, in descending order, and the leftmost process (the one with the longest current waiting time) runs next. The tree can be printed both as a 2-3-4 tree and as the equivalent **red-black tree**.
 
 > Coursework for **Algorithms and Data Structures 2** at the School of Electrical Engineering, University of Belgrade (2025/26).
 
@@ -8,21 +8,21 @@ A simulation of a Linux CFS-style (Completely Fair Scheduler) process scheduler,
 
 - **Self-balancing run queue**: inserting into a full node splits it and moves the middle key up to the parent, with splits propagating towards the root, so all leaves stay at the same depth. Deleting an inner key swaps it with its in-order predecessor; an emptied node borrows a key from a sibling or merges with it.
 - **Red-black view**: every key carries a colour, so each 2-3-4 node maps to a black key with up to two red children. The tree can be printed in either form.
-- **Scheduling simulation**: repeatedly picks the leftmost process, runs it for one time slice, adds the elapsed time to every other process's waiting time, and resets and re-inserts any process whose waiting time exceeded its limit. A process leaves the tree once it has received its full execution time.
+- **Scheduling simulation**: repeatedly takes the leftmost process and runs it for one time slice (or less, if it needs less to finish), adds the elapsed time to the waiting time of every process, and when a process's waiting time reaches its limit, subtracts the limit and re-inserts the process. A process leaves the tree once it has received its full execution time.
 - **Search**: by current waiting and execution time, or by process name.
-- **Traversals and output**: level-order (2-3-4), red-black and in-order printing, to the console or to a file.
+- **Traversals and output**: level-order (2-3-4), red-black and in-order printing, to the console or to a file. All tree algorithms are iterative (no recursion), as the assignment required.
 - **Input**: processes from the keyboard or from a text file.
 
 ## Building
 
-Standard C++17, no dependencies:
+C++11 or later, no dependencies:
 
 ```sh
 g++ -std=c++17 -O2 -o scheduler *.cpp
 ./scheduler
 ```
 
-It also builds as a Visual Studio console project.
+The sources can also be added to a Visual Studio console project.
 
 ## Usage
 
@@ -52,13 +52,13 @@ B 3 4
 C 8 12
 ```
 
-Process names must be unique. See [`examples/processes.txt`](examples/processes.txt).
+Process names can be up to 256 characters long and must be unique. See [`examples/processes.txt`](examples/processes.txt).
 
 ## Project structure
 
 | File | Contents |
 |---|---|
 | `Key.h/.cpp` | A process: name, required execution time, waiting limit, current waiting/execution time, colour |
-| `Node.h/.cpp` | A 2-3-4 tree node with up to three keys and four subtrees |
+| `Node.h/.cpp` | A 2-3-4 tree node with up to three keys and four subtrees; node splitting, borrowing and merging |
 | `Tree.h/.cpp` | Insertion, deletion, search, traversals and the scheduling loop |
 | `main.cpp` | Menu-driven command-line interface |
