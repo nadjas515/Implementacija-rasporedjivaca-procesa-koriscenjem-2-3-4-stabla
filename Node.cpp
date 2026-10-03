@@ -444,7 +444,7 @@ void Node::colourNode() {
 		keys[2]->turnRed();
 }
 
-inline void Node::resetNode() {
+void Node::resetNode() {
 	for (int i = 0; i < 3; i++) {
 		keys[i] = nullptr;
 		nodes[i] = nullptr;
