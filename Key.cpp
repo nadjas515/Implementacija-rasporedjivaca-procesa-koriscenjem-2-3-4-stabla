@@ -6,7 +6,7 @@ Key::Key() :
 	maximum_waiting_time(0),
 	waiting_time(0),
 	execution_time(0),
-	colour(red) {
+	nodeColour(red) {
 }
 
 Key::Key(Key* other) :
@@ -15,7 +15,7 @@ Key::Key(Key* other) :
 	maximum_waiting_time(other->maximum_waiting_time),
 	waiting_time(other->waiting_time),
 	execution_time(other->execution_time),
-	colour(other->colour) {
+	nodeColour(other->nodeColour) {
 }
 
 Key::Key(std::string name, int complete, int waiting) :
@@ -24,7 +24,7 @@ Key::Key(std::string name, int complete, int waiting) :
 	maximum_waiting_time(waiting),
 	waiting_time(0),
 	execution_time(0),
-	colour(red) {
+	nodeColour(red) {
 }
 
 bool Key::operator>(Key other) {
@@ -44,7 +44,7 @@ int Key::getExecutionTime() {
 }
 
 void Key::print(std::ostream& output) {
-	if (colour == red) output << "red ";
+	if (nodeColour == red) output << "red ";
 	else output << "black ";
 	output << name << " w:" << waiting_time << " e:" << execution_time;
 }

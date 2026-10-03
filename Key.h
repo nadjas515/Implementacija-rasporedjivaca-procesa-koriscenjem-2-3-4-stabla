@@ -30,7 +30,7 @@ private:
 	int maximum_waiting_time;
 	int waiting_time;
 	int execution_time;
-	colour colour;
+	colour nodeColour;
 };
 
 inline void Key::incrementWaitingTime(int increment) {
@@ -63,13 +63,13 @@ inline void Key::resetWaitingTime() {
 
 inline colour Key::getColour()
 {
-	return colour;
+	return nodeColour;
 }
 
 inline void Key::turnBlack() {
-	colour = black;
+	nodeColour = black;
 }
 
 inline void Key::turnRed() {
-	colour = red;
+	nodeColour = red;
 }
